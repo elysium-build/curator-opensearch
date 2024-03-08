@@ -10,12 +10,12 @@ RUN update-ca-certificates
 RUN echo 'https://dl-cdn.alpinelinux.org/alpine/v3.16/community/' >> /etc/apk/repositories
 RUN apk --no-cache upgrade && apk --no-cache add build-base tar musl-utils openssl-dev patchelf
 # patchelf-wrapper is necessary now for cx_Freeze, but not for Curator itself.
-RUN pip3 install -trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org cx_Freeze patchelf-wrapper
+RUN pip3 install --trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org cx_Freeze patchelf-wrapper
 
 COPY . .
 RUN ln -s /lib/libc.musl-x86_64.so.1 ldd
 RUN ln -s /lib /lib64
-RUN pip3 install -trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org -r requirements.txt
+RUN pip3 install --trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org -r requirements.txt
 RUN python3 setup.py build_exe
 
 

@@ -1,3 +1,6 @@
+ARG BASE_IMAGE=""
+ARG BASE_IMAGE_TAG=""
+
 FROM python:3.11.3-alpine3.18 as builder
 
 COPY fpx.crt /usr/local/share/ca-certificates
@@ -15,8 +18,6 @@ RUN ln -s /lib /lib64
 RUN pip3 install -trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org -r requirements.txt
 RUN python3 setup.py build_exe
 
-ARG BASE_IMAGE
-ARG BASE_IMAGE_TAG
 
 FROM ${BASE_IMAGE}:${BASE_IMAGE_TAG}
 RUN apk --no-cache upgrade && apk --no-cache add openssl-dev expat
